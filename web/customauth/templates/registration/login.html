@@ -1,0 +1,36 @@
+{% extends "web/base.html" %}
+
+{% block body %}
+<div class = "text-center mt-5">
+<form method="post" action="{% url 'cauth:cauth-login' %}">
+{% csrf_token %}
+<label for = "{{ form.username.id_for_label }}">
+{{ form.username.label_tag }}
+<input type="text" class="form-control mb-3" placeholder="Enter username" id = "{{ form.username.id_for_label }}" name = "{{ form.username.html_name }}">
+<label for = "{{ form.username.id_for_label }}">
+{{ form.password.label_tag }}
+<input type="text" class="form-control mb-3" placeholder="Enter password" id = "{{ form.password.id_for_label }}" name = "{{ form.password.html_name }}">
+<button class="btn btn-outline-success" type="submit" id="button-addon2"> Login </button>
+<input type="hidden" name="next" value="{{ next }}">
+</form>
+</div>
+<br>
+<br>
+{% if next %}
+    {% if user.is_authenticated %}
+    <div class="container text-center alert alert-danger" role="alert">
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    </div>
+    {% else %}
+    <div class="container text-center alert alert-danger" role="alert">
+    <p>Please login to see this page.</p>
+    </div>
+    {% endif %}
+{% endif %}
+{% if form.errors %}
+<div class="container text-center alert alert-danger" role="alert">
+<p>Your username and password didn't match. Please try again.</p>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+    {% block title %}
+    {% endblock title %}
+    </title>
+    {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+</head>
+<body>
+    <div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'main-page' %}">Web</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        {% if  request.user.is_authenticated %}
+            <a class="nav-link" href = "{% url 'cauth:cauth-logout' %}">Logout</a>
+        {% else %}
+            <a class="nav-link" href = '{% url "cauth:cauth-login" %}'> Login</a> 
+            <a class="nav-link" href = '{% url "cauth:cauth-register" %}'> Register </a> 
+        {% endif %}
+            <a class="nav-link" href = '{% url "posts:show-posts" %}'>Posts</a>
+        {% if  request.user.is_authenticated %}
+            <a class="nav-link" href = '{% url "posts:create-post" %}'> Create Post </a>
+            <span class="nav-link text-white fw-bold"> {% firstof request.user.first_name request.user.username %} </span>
+        {% else %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+</div>
+    {% block body %}
+    {% endblock body %}
+</body>
+</html>
