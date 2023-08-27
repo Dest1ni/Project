@@ -9,7 +9,7 @@
 <input type="text" class="form-control mb-3" placeholder="Enter username" id = "{{ form.username.id_for_label }}" name = "{{ form.username.html_name }}">
 <label for = "{{ form.username.id_for_label }}">
 {{ form.password.label_tag }}
-<input type="text" class="form-control mb-3" placeholder="Enter password" id = "{{ form.password.id_for_label }}" name = "{{ form.password.html_name }}">
+<input type="password" class="form-control mb-3" placeholder="Enter password" id = "{{ form.password.id_for_label }}" name = "{{ form.password.html_name }}">
 <button class="btn btn-outline-success" type="submit" id="button-addon2"> Login </button>
 <input type="hidden" name="next" value="{{ next }}">
 </form>
