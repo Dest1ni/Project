@@ -13,7 +13,7 @@ class UserCreationView(CreateView):
     success_url = reverse_lazy("posts:show-posts")
 
 class LoginView(BaseLoginView):
-    next_page = reverse_lazy("posts:show-posts")
+    next_page = reverse_lazy("main-page")
 
 class LogoutView(BaseLogoutView):
-    next_page = reverse_lazy("posts:show-posts")
+    next_page = reverse_lazy("main-page")
