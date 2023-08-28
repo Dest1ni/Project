@@ -4,7 +4,6 @@ from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView as BaseLoginView,LogoutView as BaseLogoutView
 from .models import UserModel
 from .forms import UserCreationForm
-# Create your views here.
 
 class UserCreationView(CreateView):
     model = UserModel
@@ -14,6 +13,7 @@ class UserCreationView(CreateView):
 
 class LoginView(BaseLoginView):
     next_page = reverse_lazy("main-page")
+    template_name = 'registration/login.html'
 
 class LogoutView(BaseLogoutView):
     next_page = reverse_lazy("main-page")
