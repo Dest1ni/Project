@@ -2,9 +2,9 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView,CreateView,DetailView,View
-from .models import Post
+from .models import Post,Comment
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import PostCreationForm
+from .forms import PostCreationForm,CommentCreationForm
 
 class ShowPosts(ListView):
     model = Post
@@ -20,8 +20,11 @@ class DetailPost(DetailView):
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         post:Post = self.get_object()
+        comments:Comment = Comment.objects.filter(post_id = post.pk)
         context['likes'] = post.who_liked.count()
         context['dislikes'] = post.who_disliked.count()
+        context['comment_form'] = CommentCreationForm() 
+        context['comments'] = comments
         return context
 
 class CreatePost(LoginRequiredMixin,CreateView):
@@ -57,7 +60,22 @@ class ReactionPostView(LoginRequiredMixin,View):
             else:
                 post.who_disliked.add(user)
         return HttpResponseRedirect(reverse('posts:detail-post', args=[post_id]))
-    def get(self,request,post_id,*args,**kwargs):
+
+class CommentCreateView(LoginRequiredMixin,View):
+    login_url = reverse_lazy("cauth:cauth-login")
+    def post(self,request,post_id):
+        post = get_object_or_404(Post,id = post_id)
+
+        user = request.user
+
+        body = request.POST.get('body')
+        print(body)
+        comment = Comment.objects.create(
+            body = body,
+            post = post,
+            user = user,
+        )
+
         return HttpResponseRedirect(reverse('posts:detail-post', args=[post_id]))
     
 
