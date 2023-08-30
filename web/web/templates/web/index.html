@@ -6,7 +6,7 @@ Web
 {% block body %}
     <div class="bg-image d-flex align-items-center justify-content-center" style="background-image: url('{% static 'general/background.png' %}'); background-size: cover;">
         <div class="text-center mt-5 mb-auto" style ="height: 650px">
-            <h1>Welcome to the web {% firstof user.username 'Anonymous'%} !</h1>
+            <h1>{{message}} !</h1>
         </div>
     </div>
 {% endblock body %}

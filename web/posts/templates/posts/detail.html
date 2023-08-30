@@ -31,8 +31,10 @@
     </form>
     <form method="POST" action="{% url 'posts:comment-post' post_id=post.pk %}" class="mt-4">
         {% csrf_token %}
-            <textarea class="form-control" id="{{ comment_form.body.id_for_label }}" name="{{ comment_form.body.html_name }}" rows="2" style="width: 400px" required></textarea>
+        <div class="form-floating">
+            <textarea class="form-control modal-lg" id="{{ comment_form.body.id_for_label }}" name="{{ comment_form.body.html_name }}" rows="2" style="height: 100px" required></textarea>
             <button class="btn btn-primary mt-2 mb-5" type="submit">Comment</button>
+        </div>
     </form>
     <div class='text-center mb-4'>
         <h5> Comments </h5> 
