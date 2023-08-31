@@ -12,15 +12,19 @@ class ShowPosts(ListView):
     context_object_name = "posts"
 
     def get_queryset(self):
-        return Post.objects.all()
+        return Post.objects.all().order_by("-id")
 
 class DetailPost(DetailView):
     model = Post
     template_name = "posts/detail.html"
+
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
+
         post:Post = self.get_object()
+
         comments:Comment = Comment.objects.filter(post_id = post.pk)
+
         context['likes'] = post.who_liked.count()
         context['dislikes'] = post.who_disliked.count()
         context['comment_form'] = CommentCreationForm() 
@@ -33,12 +37,14 @@ class CreatePost(LoginRequiredMixin,CreateView):
     login_url = reverse_lazy("cauth:cauth-login")
     template_name = "posts/create.html"
     success_url = reverse_lazy("posts:show-posts")
+
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
     
 class ReactionPostView(LoginRequiredMixin,View):
     login_url = reverse_lazy("cauth:cauth-login")
+
     def post(self, request, post_id,reaction, *args, **kwargs):
         post = get_object_or_404(Post, id=post_id)
 
@@ -60,16 +66,20 @@ class ReactionPostView(LoginRequiredMixin,View):
             else:
                 post.who_disliked.add(user)
         return HttpResponseRedirect(reverse('posts:detail-post', args=[post_id]))
-
+    
+    def get(self, request, post_id,reaction, *args, **kwargs):
+        return HttpResponseRedirect(reverse('posts:detail-post', args=[post_id]))
+    
 class CommentCreateView(LoginRequiredMixin,View):
     login_url = reverse_lazy("cauth:cauth-login")
+
     def post(self,request,post_id):
         post = get_object_or_404(Post,id = post_id)
 
         user = request.user
 
         body = request.POST.get('body')
-        print(body)
+
         comment = Comment.objects.create(
             body = body,
             post = post,
@@ -78,4 +88,6 @@ class CommentCreateView(LoginRequiredMixin,View):
 
         return HttpResponseRedirect(reverse('posts:detail-post', args=[post_id]))
     
+    def get(self,request,post_id):
+        return HttpResponseRedirect(reverse('posts:detail-post', args=[post_id]))
 

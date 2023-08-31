@@ -12,7 +12,7 @@
     <div class="text-center">
         <h1>{{post.title}}</h1>
         <br>
-        <h5><em>Created by {{post.user.username}}</em></h5>
+        <h5><em>Created by <a href = "{% url 'cauth:cauth-profile' pk=post.user.pk %}">{{post.user.username}} </a></em></h5>
     </div>
     <h3>{{post.body}}</h3>
     <form method="POST" action="{% url 'posts:reaction-post' post_id=post.pk reaction='like' %}">
@@ -29,6 +29,9 @@
         </button>
         {{dislikes}}
     </form>
+    <div class='text-center mb-4'>
+        <h5> Comments </h5> 
+    </div>
     <form method="POST" action="{% url 'posts:comment-post' post_id=post.pk %}" class="mt-4">
         {% csrf_token %}
         <div class="form-floating">
@@ -36,20 +39,19 @@
             <button class="btn btn-primary mt-2 mb-5" type="submit">Comment</button>
         </div>
     </form>
-    <div class='text-center mb-4'>
-        <h5> Comments </h5> 
-    </div>
     <ol class="list-group ">
         {% for comment in comments %}
         <li class="list-group-item d-flex justify-content-between align-items-start container">
             <div class="ms-2 me-auto">
-                <div class="fw-bold">
-                    {{comment.user.username}}
-                </div>
+                    <a class = "link" href = '{% url "cauth:cauth-profile" pk=comment.user.pk %}'>{{comment.user.username}} </a><br>
                 {{comment.body}}
             </div>
             <span class="badge bg-primary rounded-pill">{{comment.time_stamp|time:"H:i"}} {{ comment.time_stamp|date:"d.m.Y"}}</span>
         </li>
+        {% empty %}
+        <div class='text-center'>
+        <h5> Be the first to comment on this post! </h5>
+        </div>
         {% endfor %}
     </ol>
 </div>
