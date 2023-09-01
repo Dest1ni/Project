@@ -42,6 +42,7 @@
               <a class="nav-link" href='{% url "posts:create-post" %}'> Create Post </a>
               <a class="nav-link text-white fw-bold" href = "{% url 'cauth:cauth-profile' pk=request.user.pk%}">{% firstof request.user.first_name request.user.username %} </a>
               {% endif %}
+              <a href = "{% url 'services:services-list'%}" class='nav-link'>Services</a>
             </div>
           </div>
         </div>
@@ -50,5 +51,4 @@
     {% block body %} 
     {% endblock body %}
   </body>
-
 </html>

@@ -6,7 +6,11 @@
 
 {% block body %}
 <div class = "text-center mt-4">
-    <h3> Profile {{user.username}} </h3>
+    <h3> Profile {{user.username}} 
+        {% if request.user.pk != user.pk %}
+            <h5>Last seen in {{user.last_login|time:"H:i"}} {{user.last_login|date:"d.m.Y"}}</h5>
+        {% endif %}
+    </h3>
     {% if request.user.pk == user.pk %}
         <h2>Your post's</h2>
     {% else %}

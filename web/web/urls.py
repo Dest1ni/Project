@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('posts/',include("posts.urls")),
     path('cauth/',include("customauth.urls")),
-    path('',IndexView.as_view(),name="main-page")
+    path('services/',include("services.urls")),
+    path('',IndexView.as_view(),name="main-page"),
 ]

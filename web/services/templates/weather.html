@@ -1,0 +1,38 @@
+{% extends "web/base.html" %}
+
+{% block title %}
+Weather
+{% endblock title %}
+
+{% block body %}
+<div class = "text-center mt-5">
+<form method="post">
+    {% csrf_token %}
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">
+        City name
+    <input type="text" class="form-control" name="city" id = "city">
+    </label>
+    <div id="emailHelp" class="form-text">Enter the city in any language</div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<h1>
+
+</h1>
+{% if answer == 'True' %}
+<label>
+<ul class="list-group text-center">
+  <li class="list-group-item">{% firstof json.name 'City' %}</li>
+  <li class="list-group-item">Temperature {% firstof json.main.temp '0' %} °C (feels like {% firstof  json.main.feels_like '0'%}  °C)</li>
+  <li class="list-group-item">Wind speed {% firstof json.wind.speed '0' %} meter/sec</li>
+  <li class="list-group-item">Humidity {% firstof json.main.humidity '0' %} %</li>
+  <li class="list-group-item">Visibility {% firstof json.visibility '0' %} m</li>
+  <li class="list-group-item">Thank you for using our services</li>
+</ul>
+{% else %}
+
+{% endif %}
+
+</div>
+{% endblock body %}

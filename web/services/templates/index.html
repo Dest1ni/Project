@@ -1,0 +1,21 @@
+{% extends "web/base.html" %}
+{% block title %}
+Services
+{% endblock title %}
+{% load static %}
+{% block body %}
+<div class = "p-3">
+    <div class="list-group justify-content-center">
+        <div class="d-flex w-100 justify-content-between mb-5 ">
+            <div class="card">
+                <img src="{% static 'services/cloud.png' %}"  width="100" alt="YOU">
+                <div class="card-body">
+                    <h5 class="card-title">Weather</h5>
+                    <p class="card-text"> Check the weather in your city</p>
+                    <a href="{% url 'services:services-weather'%}" class="btn btn-primary">Go !</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

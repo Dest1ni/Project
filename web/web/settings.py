@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # Project apps
     'posts.apps.PostsConfig',
     'customauth.apps.CustomauthConfig',
+    'services.apps.ServicesConfig',
     # Pip apps
     'bootstrap5',
 ]
