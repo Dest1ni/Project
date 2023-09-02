@@ -17,5 +17,17 @@ Services
             </div>
         </div>
     </div>
+    <div class="list-group justify-content-center">
+        <div class="d-flex w-100 justify-content-between mb-5 ">
+            <div class="card">
+                <img src="{% static 'services/music.png' %}"  width="100" alt="YOU">
+                <div class="card-body">
+                    <h5 class="card-title">Music</h5>
+                    <p class="card-text"> Listen to your favorite artists !</p>
+                    <a href="{% url 'services:services-music'%}" class="btn btn-primary">Go !</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock body %}

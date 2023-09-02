@@ -1,6 +1,6 @@
+from django.shortcuts import render
 from django.views.generic import TemplateView,View
 import requests
-
 class ListServies(TemplateView):
     template_name = 'index.html'
 
@@ -23,4 +23,7 @@ class WeatherView(TemplateView):
         return self.render_to_response(context)
 
     def get(self, request, *args, **kwargs):
-        return self.render_to_response(self.get_context_data(**kwargs))
+        return render(context=self.get_context_data(**kwargs),template_name='weather.html',request=request)
+    
+class MusicView(TemplateView):
+    template_name = 'music.html'
