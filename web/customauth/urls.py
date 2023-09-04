@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import UserCreationView,LoginView,LogoutView,ProfileView
 
+
 app_name = "cauth"
 
 urlpatterns = [

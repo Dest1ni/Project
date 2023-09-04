@@ -5,6 +5,7 @@ from .models import UserModel
 from posts.models import Post
 from .forms import UserCreationForm
 
+
 class UserCreationView(CreateView):
     model = UserModel
     form_class = UserCreationForm
