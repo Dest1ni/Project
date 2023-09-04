@@ -15,8 +15,6 @@ class WeatherView(TemplateView):
         if response.status_code == 200:
             data = response.json()
             context["json"] = data
-            context["answer"] = "True"
-            print(data)
         else:
             print("Ошибка при получении данных.")
 

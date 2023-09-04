@@ -8,5 +8,3 @@ class UserCreationForm(UserCreationFormGeneric):
         model = UserModel
         fields = ["username","password1","password2"] 
         
-    # Как-то нужно кастомную валидацию написать
-        

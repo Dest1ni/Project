@@ -1,5 +1,5 @@
-from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView,CreateView,DetailView,View
 from .models import Post,Comment
@@ -12,7 +12,7 @@ class ShowPosts(ListView):
     context_object_name = "posts"
 
     def get_queryset(self):
-        return Post.objects.all().order_by("-id")
+        return Post.objects.all().order_by("-id").all()
 
 class DetailPost(DetailView):
     model = Post

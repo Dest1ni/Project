@@ -20,7 +20,7 @@ Weather
 <h1>
 
 </h1>
-{% if answer == 'True' %}
+{% if json.cod == 200 %}
 <label>
 <ul class="list-group text-center">
   <li class="list-group-item">{% firstof json.name 'City' %}</li>
