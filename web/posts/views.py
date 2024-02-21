@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView,CreateView,DetailView,View
@@ -45,9 +45,11 @@ class CreatePost(LoginRequiredMixin,CreateView):
 class ReactionPostView(LoginRequiredMixin,View):
     login_url = reverse_lazy("cauth:cauth-login")
 
-    def post(self, request, post_id,reaction, *args, **kwargs):
+    def post(self, request,*args, **kwargs):
+        post_id = request.POST.get('post_id')
+        reaction = request.POST.get('reaction')
         post = get_object_or_404(Post, id=post_id)
-
+        print(post_id)
         user = request.user
         if reaction=='like':
             if post.who_liked.filter(id=user.id).exists():
@@ -57,6 +59,8 @@ class ReactionPostView(LoginRequiredMixin,View):
                 post.who_liked.add(user)
             else:
                 post.who_liked.add(user)
+            reactions = post.who_liked.count()
+
         if reaction=='dislike':
             if post.who_disliked.filter(id=user.id).exists():
                 post.who_disliked.remove(user)
@@ -65,7 +69,8 @@ class ReactionPostView(LoginRequiredMixin,View):
                 post.who_disliked.add(user)
             else:
                 post.who_disliked.add(user)
-        return HttpResponseRedirect(reverse('posts:detail-post', args=[post_id]))
+            reactions = post.who_disliked.count()
+        return JsonResponse({'post_id':post_id,'reactions':reactions})
     
     def get(self, request, post_id,reaction, *args, **kwargs):
         return HttpResponseRedirect(reverse('posts:detail-post', args=[post_id]))
