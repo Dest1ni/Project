@@ -4,6 +4,7 @@
 {% endblock title %}
 {% load static %}
 {% block body %}
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <div class="mt-2 p-4 px-3">
     <a href="{% url 'posts:show-posts'%}">
         <button class="btn btn-primary">
@@ -20,7 +21,7 @@
             <img src="{% static 'posts/Heart.png' %}" width="40" height="auto">
         </button>
         <span id = "like-count">{{likes}}</span>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    
     <script type = "text/javascript">
     $('.heart.btn.btn-link').click(function(){
         var postid;
@@ -35,13 +36,37 @@
                     csrfmiddlewaretoken: '{{csrf_token}}',
                 },
                 success: function(data){
-                    $('#like-count').text(data.reactions)
-                }
+                $('#dislike-count').text(data.dislikes)
+                $('#like-count').text(data.likes)
+            }
             }
         )
     })
     </script>
+<button type="submit" class="poop btn btn-link" post-id = {{post.pk}}>
+<img src="{% static 'posts/poop.png' %}" width="40" height="auto">
+</button>
+<span id = "dislike-count">{{dislikes}}</span>
 
+<script type = "text/javascript">
+$(".poop.btn.btn-link").click(function(){
+    var postid;
+    postid = $(this).attr("post-id");
+    $.ajax({
+        type:"POST",
+        url:"{% url 'posts:reaction-post' %}",
+        data:{
+            post_id:postid,
+            reaction:"dislike",
+            csrfmiddlewaretoken:'{{csrf_token}}'
+        },
+        success: function(data){
+            $('#dislike-count').text(data.dislikes)
+            $('#like-count').text(data.likes)
+        }
+    })
+})
+</script>
     <div class='text-center mb-4'>
         <h5> Comments </h5> 
     </div>

@@ -49,7 +49,6 @@ class ReactionPostView(LoginRequiredMixin,View):
         post_id = request.POST.get('post_id')
         reaction = request.POST.get('reaction')
         post = get_object_or_404(Post, id=post_id)
-        print(post_id)
         user = request.user
         if reaction=='like':
             if post.who_liked.filter(id=user.id).exists():
@@ -59,9 +58,8 @@ class ReactionPostView(LoginRequiredMixin,View):
                 post.who_liked.add(user)
             else:
                 post.who_liked.add(user)
-            reactions = post.who_liked.count()
 
-        if reaction=='dislike':
+        elif reaction=='dislike':
             if post.who_disliked.filter(id=user.id).exists():
                 post.who_disliked.remove(user)
             elif post.who_liked.filter(id=user.id).exists():
@@ -69,8 +67,11 @@ class ReactionPostView(LoginRequiredMixin,View):
                 post.who_disliked.add(user)
             else:
                 post.who_disliked.add(user)
-            reactions = post.who_disliked.count()
-        return JsonResponse({'post_id':post_id,'reactions':reactions})
+
+        dislikes = post.who_disliked.count()
+        likes = post.who_liked.count()
+        
+        return JsonResponse({'post_id':post_id,'dislikes':dislikes,'likes':likes})
     
     def get(self, request, post_id,reaction, *args, **kwargs):
         return HttpResponseRedirect(reverse('posts:detail-post', args=[post_id]))
