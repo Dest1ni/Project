@@ -15,3 +15,4 @@ class Comment(models.Model):
     user = models.ForeignKey(UserModel,on_delete=models.CASCADE)
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
     time_stamp = models.DateTimeField(auto_now=True)
+    likes = models.ManyToManyField(UserModel,related_name="likes")

@@ -1,4 +1,5 @@
 {% extends "web/base.html" %}
+{% load custom_filters %}
 {% block title %}
 Posts
 {% endblock title %}
@@ -16,6 +17,7 @@ Posts
           <small>By {{post.user.username}}</small>
         </div>
         <p class="mb-1">{{ post.body|truncatechars:30 }}</p>
+        <span>Репутация: {{post.who_liked.count|sub:post.who_disliked.count}}</span>
       </a>
       <br>
     {% empty %}
