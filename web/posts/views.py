@@ -76,6 +76,21 @@ class ReactionPostView(LoginRequiredMixin,View):
     def get(self, request, post_id,reaction, *args, **kwargs):
         return HttpResponseRedirect(reverse('posts:detail-post', args=[post_id]))
     
+        
+class ReactionCommentView(LoginRequiredMixin,View):
+    login_url = reverse_lazy("cauth:cauth-login")
+    
+    def post(self,request,*args,**kwargs):
+        comment_id = request.POST.get("comment_id")
+        user = request.user
+        comment = get_object_or_404(Comment,id = comment_id)
+        if comment.likes.filter(id = user.id).exists():
+            comment.likes.remove(user)
+        else:
+            comment.likes.add(user)
+        likes = comment.likes.count()
+        return JsonResponse({'likes':likes})
+    
 class CommentCreateView(LoginRequiredMixin,View):
     login_url = reverse_lazy("cauth:cauth-login")
 

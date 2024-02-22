@@ -82,7 +82,8 @@ $(".poop.btn.btn-link").click(function(){
         <li class="list-group-item d-flex justify-content-between align-items-start container">
             <div class="ms-2 me-auto">
                     <a class = "link" href = '{% url "cauth:cauth-profile" pk=comment.user.pk %}'>{{comment.user.username}} </a><br>
-                {{comment.body}}
+                {{comment.body}} <br>
+                <img src="{% static 'posts/fire.png' %}" width="35" height="auto" comment_id = "{{comment.pk}}" class = "like"> <span id = "likes-count-{{comment.pk}}">{{comment.likes.count}}</span>
             </div>
             <span class="badge bg-primary rounded-pill">{{comment.time_stamp|time:"H:i"}} {{ comment.time_stamp|date:"d.m.Y"}}</span>
         </li>
@@ -92,5 +93,22 @@ $(".poop.btn.btn-link").click(function(){
         </div>
         {% endfor %}
     </ol>
+    <script type="text/javascript">
+        $('.like').click(function(){
+            var commentid;
+            commentid = $(this).attr("comment_id");
+            $.ajax({
+                type:"POST",
+                url:"{% url 'posts:comment-reaction' %}",
+                data: {
+                    comment_id: commentid,
+                    csrfmiddlewaretoken: '{{csrf_token}}'
+                },
+                success: function(data){
+                    $('#likes-count-'+commentid).text(data.likes)
+                }
+            })
+        })
+    </script>
 </div>
 {% endblock body %}
