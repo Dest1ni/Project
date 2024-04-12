@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ["127.0.0.1","dest1ni.pythonanywhere.com"]
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'posts.apps.PostsConfig',
     'customauth.apps.CustomauthConfig',
     'services.apps.ServicesConfig',
+    'chat.apps.ChatConfig',
     # Pip apps
     'bootstrap5',
 ]
@@ -74,7 +76,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'web.wsgi.application'
-
+ASGI_APPLICATION = 'web.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND':'channels.layers.InMemoryChannelLayer'
+        
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
