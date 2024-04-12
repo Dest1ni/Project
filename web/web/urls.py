@@ -24,4 +24,5 @@ urlpatterns = [
     path('cauth/',include("customauth.urls")),
     path('services/',include("services.urls")),
     path('',IndexView.as_view(),name="main-page"),
+    path('chat/',include("chat.urls"))
 ]

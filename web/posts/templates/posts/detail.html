@@ -4,6 +4,9 @@
 {% endblock title %}
 {% load static %}
 {% block body %}
+<style>
+    a { text-decoration: none; }
+  </style>
 <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <div class="mt-2 p-4 px-3">
         <button onclick = "history.go(-1)" class="btn btn-primary">
@@ -72,16 +75,16 @@ $(".poop.btn.btn-link").click(function(){
     <form method="POST" action="{% url 'posts:comment-post' post_id=post.pk %}" class="mt-4">
         {% csrf_token %}
         <div class="form-floating">
-            <textarea class="form-control modal-lg" id="{{ comment_form.body.id_for_label }}" name="{{ comment_form.body.html_name }}" rows="2" style="height: 100px" required></textarea>
-            <button class="btn btn-primary mt-2 mb-5" type="submit">Comment</button>
+            <textarea class="form-control modal-lg" id="comment-area" name="{{ comment_form.body.html_name }}" rows="2" style="height: 100px" required></textarea>
+            <button class="btn btn-primary mt-2 mb-5" type="submit" id = "comment-button">Comment</button>
         </div>
     </form>
     <ol class="list-group ">
         {% for comment in comments %}
         <li class="list-group-item d-flex justify-content-between align-items-start container">
             <div class="ms-2 me-auto">
-                    <a class = "link" href = '{% url "cauth:cauth-profile" pk=comment.user.pk %}'>{{comment.user.username}} </a><br>
-                {{comment.body}} <br>
+                <a href = '{% url "cauth:cauth-profile" pk=comment.user.pk %}'> <span class = "link" href = '{% url "cauth:cauth-profile" pk=comment.user.pk %}'>{{comment.user.username}} </span></a><br>
+                {{comment.body}}<br>
                 <img src="{% static 'posts/fire.png' %}" width="35" height="auto" comment_id = "{{comment.pk}}" class = "like"> <span id = "likes-count-{{comment.pk}}">{{comment.likes.count}}</span>
             </div>
             <span class="badge bg-primary rounded-pill">{{comment.time_stamp|time:"H:i"}} {{ comment.time_stamp|date:"d.m.Y"}}</span>
@@ -92,7 +95,7 @@ $(".poop.btn.btn-link").click(function(){
         </div>
         {% endfor %}
     </ol>
-    <script type="text/javascript">
+    <script>
         $('.like').click(function(){
             var commentid;
             commentid = $(this).attr("comment_id");
@@ -108,6 +111,11 @@ $(".poop.btn.btn-link").click(function(){
                 }
             })
         })
+        document.querySelector('#comment-area').onkeyup = function(e) {
+            if (e.keyCode === 13) { 
+                document.querySelector('#comment-button').click();
+            }
+        };
     </script>
 </div>
 {% endblock body %}
