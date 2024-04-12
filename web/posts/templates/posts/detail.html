@@ -6,10 +6,9 @@
 {% block body %}
 <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <div class="mt-2 p-4 px-3">
-    <a href="{% url 'posts:show-posts'%}">
-        <button class="btn btn-primary">
-            <- Back</button>
-    </a>
+        <button onclick = "history.go(-1)" class="btn btn-primary">
+            <- Back
+        </button>
     <div class="text-center">
         <h1>{{post.title}}</h1>
         <br>
