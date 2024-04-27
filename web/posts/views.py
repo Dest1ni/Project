@@ -5,6 +5,8 @@ from django.views.generic import ListView,CreateView,DetailView,View
 from .models import Post,Comment
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import PostCreationForm,CommentCreationForm
+from django.db.models import Count
+
 
 class ShowPosts(ListView):
     model = Post
@@ -12,7 +14,7 @@ class ShowPosts(ListView):
     context_object_name = "posts"
 
     def get_queryset(self):
-        return Post.objects.all().order_by("-id").all()
+        return Post.objects.all().annotate(rep = Count("who_liked") - Count("who_disliked")).order_by("-rep").all()
 
 class DetailPost(DetailView):
     model = Post
@@ -44,7 +46,8 @@ class CreatePost(LoginRequiredMixin,CreateView):
     
 class ReactionPostView(LoginRequiredMixin,View):
     login_url = reverse_lazy("cauth:cauth-login")
-
+    success_url = reverse_lazy("posts:show-posts")
+    
     def post(self, request,*args, **kwargs):
         post_id = request.POST.get('post_id')
         reaction = request.POST.get('reaction')
