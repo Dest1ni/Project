@@ -1,22 +1,27 @@
 from django.http import HttpResponseRedirect,HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView,CreateView,DetailView,View
+from django.views.generic import ListView,CreateView,DetailView,View,TemplateView
 from .models import Post,Comment
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import PostCreationForm,CommentCreationForm
 
+
 class ShowPosts(ListView):
     model = Post
-    template_name = "posts/index.html"
+    template_name = "templates/posts/index.html"
     context_object_name = "posts"
 
     def get_queryset(self):
         return Post.objects.all().order_by("-id").all()
-
+    
+class RedirectView(View):
+    def get(self, request, *args, **kwargs):
+        return HttpResponseRedirect(reverse('posts:show-posts'))
+    
 class DetailPost(DetailView):
     model = Post
-    template_name = "posts/detail.html"
+    template_name = "tempaltes/posts/detail.html"
 
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
@@ -35,7 +40,7 @@ class CreatePost(LoginRequiredMixin,CreateView):
     model = Post
     form_class  = PostCreationForm
     login_url = reverse_lazy("cauth:cauth-login")
-    template_name = "posts/create.html"
+    template_name = "tempaltes/posts/create.html"
     success_url = reverse_lazy("posts:show-posts")
 
     def form_valid(self, form):

@@ -9,20 +9,20 @@ from django.db.models import Sum
 class UserCreationView(CreateView):
     model = UserModel
     form_class = UserCreationForm
-    template_name = 'registration/registration.html'
+    template_name = 'templates/customauth/registration/registration.html'
     success_url = reverse_lazy("posts:show-posts")
 
 class LoginView(BaseLoginView):
-    next_page = reverse_lazy("main-page")
-    template_name = 'registration/login.html'
+    next_page = reverse_lazy("posts:show-posts")
+    template_name = 'templates/customauth/registration/login.html'
 
 class LogoutView(BaseLogoutView):
-    next_page = reverse_lazy("main-page")
+    next_page = reverse_lazy("posts:show-posts")
 
 class ProfileView(DetailView):
     model = UserModel
     context_object_name = "user"
-    template_name='user_templates/profile.html'
+    template_name='templates/customauth/user_templates/profile.html'
     
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)

@@ -1,4 +1,4 @@
-{% extends "web/base.html" %}
+{% extends "templates/base.html" %}
 
 {% block title %}
 Weather
@@ -20,7 +20,7 @@ Weather
 <h1>
 
 </h1>
-{% if json.cod == 200 %}
+{% if json.cod and json.cod  == 200 %}
 <label>
 <ul class="list-group text-center">
   <li class="list-group-item">{% firstof json.name 'City' %}</li>
@@ -30,9 +30,8 @@ Weather
   <li class="list-group-item">Visibility {% firstof json.visibility '0' %} m</li>
   <li class="list-group-item">Thank you for using our services</li>
 </ul>
-{% else %}
-
+{% elif json.cod and json.cod != 200 %}
+<p>Мы не нашли такой город</p>
 {% endif %}
-
 </div>
 {% endblock body %}
